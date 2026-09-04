@@ -5,7 +5,6 @@ from snowflake.snowpark.functions import col
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-# Título
 st.title("🥤 Customize Your Smoothie!")
 
 st.write("Choose the fruits you want in your custom Smoothie!")
