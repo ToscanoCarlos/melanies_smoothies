@@ -5,6 +5,8 @@ from snowflake.snowpark.functions import col
 cnx = st.connection("snowflake")
 session = cnx.session()
 
+st.write("Password length:", len(st.secrets["connections"]["snowflake"]["password"]))
+
 st.title("🥤 Customize Your Smoothie!")
 
 st.write("Choose the fruits you want in your custom Smoothie!")
