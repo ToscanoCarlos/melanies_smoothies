@@ -6,8 +6,6 @@ from snowflake.snowpark.functions import col
 cnx = st.connection("snowflake")
 session = cnx.session()
 
-st.write("Password length:", len(st.secrets["connections"]["snowflake"]["password"]))
-
 st.title("🥤 Customize Your Smoothie!")
 
 st.write("Choose the fruits you want in your custom Smoothie!")
@@ -63,5 +61,8 @@ if ingredients_list:
         else:
             st.warning("Please enter a name for your Smoothie.")
 
-smoothiefroot_response = requests.get("[https://my.smoothiefroot.com/api/fruit/watermelon](https://my.smoothiefroot.com/api/fruit/watermelon)")  
-st.text(smoothiefroot_response)
+smoothiefroot_response = requests.get(
+    "https://my.smoothiefroot.com/api/fruit/watermelon"
+)
+
+st.text(smoothiefroot_response.text)
