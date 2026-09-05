@@ -29,12 +29,23 @@ ingredients_list = st.multiselect(
 )
 
 if ingredients_list:
-    ingredients_string = ''
+    ingredients_string = ""
 
     for fruit_chosen in ingredients_list:
-        ingredients_string += fruit_chosen + ' '
+        ingredients_string += fruit_chosen + " "
 
-    # INSERT: ahora guarda NAME_ON_ORDER e INGREDIENTS
+        # Consultar SmoothieFroot para cada fruta seleccionada
+        smoothiefroot_response = requests.get(
+            "https://my.smoothiefroot.com/api/fruit/" + fruit_chosen
+        )
+
+        # Mostrar información nutricional
+        sf_df = st.dataframe(
+            data=smoothiefroot_response.json(),
+            use_container_width=True
+        )
+
+    # Crear la orden
     my_insert_stmt = """
         INSERT INTO smoothies.public.orders
             (name_on_order, ingredients)
@@ -52,7 +63,6 @@ if ingredients_list:
                 params=[name_on_order, ingredients_string]
             ).collect()
 
-            # Success message incluyendo NAME_ON_ORDER
             st.success(
                 f"Your Smoothie is ordered, {name_on_order}!",
                 icon="✅"
@@ -60,10 +70,3 @@ if ingredients_list:
 
         else:
             st.warning("Please enter a name for your Smoothie.")
-
-smoothiefroot_response = requests.get(
-    "https://my.smoothiefroot.com/api/fruit/watermelon"
-)
-
-# st.text(smoothiefroot_response.text)
-sf_df = st.dataframe(data=smoothiefroot_response.json(), use_container_width=True)
